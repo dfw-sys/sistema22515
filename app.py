@@ -33,11 +33,15 @@ def storage():
     _correo  = request.form['txtCorreo']
     _foto    = request.files['txtFoto']
 
+    now = datetime.now()
+    tiempo = now.strftime("%Y%H%M%S")
 
-    
+    if _foto.filename != '':
+        nuevoNombreFoto=tiempo + _foto.filename
+        _foto.save("uploads/"+nuevoNombreFoto)
 
     sql="INSERT INTO `empleados` (`id`, `nombre`, `correo`, `foto`) VALUES (NULL, %s, %s, %s);"
-    datos=(_nombre, _correo , _foto)
+    datos=(_nombre, _correo , nuevoNombreFoto)
     
     conn=mysql.connect()
     cursor=conn.cursor()
